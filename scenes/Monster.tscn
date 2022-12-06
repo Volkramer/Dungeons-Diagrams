@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scripts/MonsterSprite.gd" type="Script" id=1]
+[ext_resource path="res://assets/sprites/monster1.png" type="Texture" id=2]
+
+[node name="Monster" type="Node2D"]
+
+[node name="MonsterSprite" type="Sprite" parent="."]
+position = Vector2( 8, 8 )
+texture = ExtResource( 2 )
+script = ExtResource( 1 )
