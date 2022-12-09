@@ -54,13 +54,15 @@ func _on_Control_mouse_entered():
 func _on_Control_mouse_exited():
 	$Highlight.hide()
 
-func _on_Control_gui_input():
+func _on_Control_gui_input(_event):
 	if(Input.is_action_just_pressed("mouse_left_click") && is_ground()):
 		if(is_redcircle_on()):
 			toggle_circle()
 		set_tile_to_wall()
+		set_board_tile_nbr()
 	elif(Input.is_action_just_pressed("mouse_left_click") && is_wall()):
 		set_tile_to_ground()
+		set_board_tile_nbr()
 	elif(Input.is_action_just_pressed("mouse_right_click") && is_ground()):
 		toggle_circle()
 	elif(Input.is_action_just_pressed("mouse_right_click") && is_wall()):
@@ -68,3 +70,17 @@ func _on_Control_gui_input():
 		toggle_circle()
 	else:
 		pass
+
+func calc_reverse_pos():
+	var board = get_parent()
+	var pos_x = position[0]/(board.offset + board.tile_size)
+	var pos_y = position[1]/(board.offset + board.tile_size)
+	return [pos_x, pos_y]
+	
+func set_board_tile_nbr():
+	var board = get_parent()
+	var reverse_pos = calc_reverse_pos()
+	board.board[reverse_pos[0]][reverse_pos[1]]=tile_nbr
+	print(board.board)
+	print(board.grid)
+	
