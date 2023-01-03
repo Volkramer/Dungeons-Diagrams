@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/GUI_2x.png-d005c2b73ba0b5ae27d1e776867f4964.stex"
+path="res://.import/Coin.png-19dba0b3a82e3c0a16ffba938e3bf4ec.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/Cryo's Mini GUI/GUI/GUI_2x.png"
-dest_files=[ "res://.import/GUI_2x.png-d005c2b73ba0b5ae27d1e776867f4964.stex" ]
+source_file="res://assets/sprites/Mini_Dungeon_v1.0/Objects/Coin.png"
+dest_files=[ "res://.import/Coin.png-19dba0b3a82e3c0a16ffba938e3bf4ec.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
