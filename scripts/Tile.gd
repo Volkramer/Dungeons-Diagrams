@@ -73,8 +73,8 @@ func _on_Control_gui_input(_event):
 
 func calc_reverse_pos():
 	var board = get_parent()
-	var pos_x = position[0]/(board.offset + board.tile_size)
-	var pos_y = position[1]/(board.offset + board.tile_size)
+	var pos_x = (position[0] - board.tile_size - board.side_offset)/(board.offset + board.tile_size) 
+	var pos_y = (position[1] - board.tile_size - board.side_offset)/(board.offset + board.tile_size)
 	return [pos_x, pos_y]
 	
 func set_board_tile_nbr():

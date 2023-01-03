@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/fonts/moria-citadel/MoriaCitadel.TTF" type="DynamicFontData" id=1]
+[ext_resource path="res://assets/sprites/Mini_Dungeon_v1.0/Tilesets/Floor.png" type="Texture" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+size = 12
+font_data = ExtResource( 1 )
+
+[node name="SideTile" type="Node2D"]
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 8, 8 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 2 )
+
+[node name="Label" type="Label" parent="."]
+margin_right = 16.0
+margin_bottom = 16.0
+custom_fonts/font = SubResource( 1 )
+text = "6"
+align = 1
+valign = 1
