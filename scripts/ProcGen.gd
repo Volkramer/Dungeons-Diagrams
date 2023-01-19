@@ -19,7 +19,8 @@ func procedural_generation(g_width, g_height):
 	start_celly = randi() % grid_height
 	start_cell = [start_cellx, start_celly]
 	generate_grid()
-	generate_maze(start_cell, true)
+	generate_maze(start_cell)
+	place_monster()
 	return grid
 
 func generate_grid():
@@ -29,7 +30,7 @@ func generate_grid():
 			grid[x].append([])
 			grid[x][y] = WALL
 
-func generate_maze(cell, flag):
+func generate_maze(cell):
 	var x:int
 	var y:int
 	var valid_neighbors:Array
@@ -47,19 +48,14 @@ func generate_maze(cell, flag):
 	grid[x][y] = GROUND
 	valid_neighbors = get_valid_neighbors(cell)
 	if (!valid_neighbors.empty()):
-		flag = true
 		rand_cell = valid_neighbors[randi() % valid_neighbors.size()]
-		generate_maze(rand_cell, flag)
+		generate_maze(rand_cell)
 	elif (!cell_order.empty()):
-		if (flag):
-			grid[x][y] = MONSTER
-			flag = false
 		cell_order.remove(cell_order.size()-1)
 		if (cell_order.empty()):
-			grid[x][y] = MONSTER
 			return
 		last_cell = cell_order[-1]
-		generate_maze(last_cell, flag)
+		generate_maze(last_cell)
 	else:
 		return
 
@@ -117,3 +113,20 @@ func get_valid_neighbors(cell):
 		if (east_valid == -1 && west_valid == -1 && south_valid == -1):
 			valid_neighbors.append([x, y+1])
 	return valid_neighbors
+	
+func place_monster():
+	var wall_count:int = 0
+	for x in range(grid_width):
+		for y in range(grid_height):
+			if (grid[x][y] == GROUND):
+				wall_count = 0
+				if ((y-1 < 0) || ((y-1 >= 0) && grid[x][y-1] == WALL)):
+					wall_count += 1
+				if ((x-1 < 0) || ((x-1 >= 0) && grid[x-1][y] == WALL)):
+					wall_count += 1
+				if ((y+1 > grid_height-1) || ((y+1 <= grid_height-1) && grid[x][y+1] == WALL)):
+					wall_count += 1
+				if ((x+1 > grid_width-1) || ((x+1 <= grid_width-1) && grid[x+1][y] == WALL)):
+					wall_count += 1
+				if (wall_count == 3):
+					grid[x][y] = MONSTER

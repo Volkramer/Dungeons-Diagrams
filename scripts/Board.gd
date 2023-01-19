@@ -19,6 +19,7 @@ enum {GROUND, MONSTER, WALL, CHEST}
 func _ready():
 	randomize()
 	grid = proc_gen.procedural_generation(grid_width, grid_height)
+	resize_windows()
 	generate_board()
 	draw_side_tile()
 	draw_board()
@@ -72,9 +73,9 @@ func draw_side_tile():
 		side_tile.get_node("Label").text = str(wall_nbr)
 		add_child(side_tile)
 
-func center_camera():
-	var scale = Vector2(grid_width * (offset + tile_size) + 2 * tile_size + side_offset, grid_width * (offset + tile_size) + 2 * tile_size + side_offset)
-	$Camera2D.transform.scaled(scale)
+func resize_windows():
+	var scale = Vector2(((grid_width * (offset + tile_size) + tile_size + side_offset)/$Camera2D.zoom.x), (grid_height * (offset + tile_size) + tile_size + side_offset)/$Camera2D.zoom.y)
+	OS.set_window_size(scale)
 
 func calc_pixel_pos_tileboard(x, y):
 	return Vector2(x * (offset + tile_size) + tile_size + side_offset, y * (offset + tile_size) + tile_size + side_offset)
