@@ -70,7 +70,7 @@ func get_valid_neighbors(cell):
 	var south_valid:int
 	
 	### TEST IF NORTH IS VALID ###
-	# test if north is in the grid and not in visited neighbors
+	# test if north is in the grid and not in visited neighbors array
 	is_visited = visited.find([x, y-1])
 	if (y - 1 >= 0 && is_visited == -1):
 		# test if north has visited neighbors, valid = -1 if no visited neighbors
@@ -79,9 +79,12 @@ func get_valid_neighbors(cell):
 		west_valid = visited.find([x-1, y-1])
 		if (east_valid == -1 && north_valid == -1 && west_valid == -1):
 			valid_neighbors.append([x, y-1])
+			# Add a random chance to dig through an invalid wall (neighbours must be either a wall or outside the grid)
+		elif (randi() % 10 == 1 && (x-1 < 0 || (x-1 >= 0 && grid[x-1][y-1] != GROUND)) && (x+1 >= grid_width || (x+1 < grid_width && grid[x+1][y-1] != GROUND))):
+			valid_neighbors.append([x, y-1])
 	
 	### TEST IF EAST IS VALID ###
-	# test if east is in the grid and not in visited neighbors
+	# test if east is in the grid and not in visited neighbors array
 	is_visited = visited.find([x+1, y])
 	if (x + 1 < grid_width && is_visited == -1):
 		# test if east has visited neighbors, valid = -1 if no visited neighbors
@@ -90,20 +93,26 @@ func get_valid_neighbors(cell):
 		south_valid = visited.find([x+1, y+1])
 		if (east_valid == -1 && north_valid == -1 && south_valid == -1):
 			valid_neighbors.append([x+1, y])
+		# Add a random chance to dig through an invalid wall (neighbours must be either a wall or outside the grid)
+		elif (randi() % 10 == 1 && (y-1 < 0 || (y-1 >= 0 && grid[x+1][y-1] != GROUND)) && (y+1 >= grid_height || (y+1 < grid_height && grid[x+1][y+1] != GROUND))):
+			valid_neighbors.append([x+1, y])
 	
 	### TEST IF WEST IS VALID ###
-	# test if west is in the grid and not in visited neighbors
+	# test if west is in the grid and not in visited neighbors array
 	is_visited = visited.find([x-1, y])
 	if (x - 1 >= 0 && is_visited == -1):
-		# test if west has visited neighbors, valid = -1 if no visited neighbors
+		# test if west has visited neighbors, valid = -1 if no visited neighbors 
 		north_valid = visited.find([x-1, y-1])
 		west_valid = visited.find([x-2, y])
 		south_valid = visited.find([x-1, y+1])
 		if (south_valid == -1 && north_valid == -1 && west_valid == -1):
 			valid_neighbors.append([x-1, y])
-	
+			# Add a random chance to dig through an invalid wall (neighbours must be either a wall or outside the grid)
+		elif (randi() % 10 == 1 && (y-1 < 0 || (y-1 >= 0 && grid[x-1][y-1] != GROUND)) && (y+1 >= grid_height || (y+1 < grid_height && grid[x-1][y+1] != GROUND))):
+			valid_neighbors.append([x-1, y])
+			
 	### TEST IF SOUTH IS VALID ###
-	# test if south is in the grid and not in visited neighbors
+	# test if south is in the grid and not in visited neighbors array
 	is_visited = visited.find([x, y+1])
 	if (y + 1 < grid_height && is_visited == -1):
 		# test if south has visited neighbors, valid = -1 if no visited neighbors
@@ -111,6 +120,9 @@ func get_valid_neighbors(cell):
 		east_valid = visited.find([x+1, y+1])
 		south_valid = visited.find([x, y+2])
 		if (east_valid == -1 && west_valid == -1 && south_valid == -1):
+			valid_neighbors.append([x, y+1])
+			# Add a random chance to dig through an invalid wall (neighbours must be either a wall or outside the grid)
+		elif (randi() % 10 == 1 && (x-1 < 0 || (x-1 >= 0 && grid[x-1][y+1] != GROUND)) && (x+1 >= grid_width || (x+1 < grid_width && grid[x+1][y+1] != GROUND))):
 			valid_neighbors.append([x, y+1])
 	return valid_neighbors
 	
@@ -124,9 +136,9 @@ func place_monster():
 					wall_count += 1
 				if ((x-1 < 0) || ((x-1 >= 0) && grid[x-1][y] == WALL)):
 					wall_count += 1
-				if ((y+1 > grid_height-1) || ((y+1 <= grid_height-1) && grid[x][y+1] == WALL)):
+				if ((y+1 >= grid_height) || ((y+1 < grid_height) && grid[x][y+1] == WALL)):
 					wall_count += 1
-				if ((x+1 > grid_width-1) || ((x+1 <= grid_width-1) && grid[x+1][y] == WALL)):
+				if ((x+1 >= grid_width) || ((x+1 < grid_width) && grid[x+1][y] == WALL)):
 					wall_count += 1
 				if (wall_count == 3):
 					grid[x][y] = MONSTER
